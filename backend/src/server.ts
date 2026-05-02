@@ -16,6 +16,8 @@ import { setsRoutes } from "./routes/sets.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { globalLimiter } from "./middlewares/rateLimiter.js";
 
+import { health } from "./health.js";
+
 
 
 
@@ -38,9 +40,7 @@ app.use("/workout-exercises", workoutsExercisesRoutes);
 app.use(meRoutes);
 app.use(setsRoutes);
 
-app.get("/health", (_req, res) => {
-  res.json({ ok: true });
-});
+app.get("/health", health);
 
 //middleware de tratamento de erros
 app.use(errorHandler);
@@ -49,3 +49,4 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`API rodando em http://localhost:${port}`);
 });
+
