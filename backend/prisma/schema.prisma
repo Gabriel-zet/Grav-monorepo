@@ -13,6 +13,8 @@ model User {
   name         String?
   passwordHash String
 
+  weightG   Int?  
+
   refreshToken String?
   refreshTokenExpiresAt DateTime?
 
