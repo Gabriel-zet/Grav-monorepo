@@ -48,6 +48,35 @@ export const userRepo = {
         });
     },
 
+    findAuthById(id: number) {
+        return prisma.user.findUnique({
+            where: { id },
+            select: {
+            id: true,
+            passwordHash: true,
+        },
+        });
+    },
+
+    updatePasswordHash(id: number, passwordHash: string) {
+        return prisma.user.update({
+            where: { id },
+            data: { passwordHash },
+            select: {
+            id: true,
+            email: true,
+            name: true,
+            createdAt: true,
+            weightG: true,
+            },
+        });
+    },
+
+
+
+
+
+
     // Delete um usuário pelo id
     deleteById(id: number){
         return prisma.user.delete({ where: { id } });

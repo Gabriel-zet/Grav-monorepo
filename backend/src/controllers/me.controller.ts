@@ -36,4 +36,20 @@ export const meController = {
 
     return res.json(updated);
   },  
+
+
+    async changePassword(req: Request, res: Response) {
+    if (!req.userId) return res.status(401).json({ message: "Unauthenticated" });
+
+    const { currentPassword, newPassword } = req.body as any;
+
+    const result = await usersService.changePassword(req.userId, { currentPassword, newPassword });
+
+    if (result === null) return res.status(404).json({ message: "User not found" });
+    if (result === "INVALID_CURRENT_PASSWORD") {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+
+    return res.json({ message: "Password changed successfully", user: result });
+  },
 };

@@ -101,6 +101,22 @@ export const usersService = {
     }
   },
 
+    async changePassword(userId: number, input: { currentPassword: string; newPassword: string }) {
+    const user = await userRepo.findAuthById(userId);
+    if (!user) return null;
+
+    const ok = await bcrypt.compare(input.currentPassword, user.passwordHash);
+    if (!ok) return "INVALID_CURRENT_PASSWORD" as const;
+
+    const saltRounds = 10;
+    const newHash = await bcrypt.hash(input.newPassword, saltRounds);
+
+    // troca a senha
+    const updatedUser = await userRepo.updatePasswordHash(userId, newHash);
+
+
+    return updatedUser;
+  },
 
 
   async list() {
