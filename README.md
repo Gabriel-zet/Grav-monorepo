@@ -115,6 +115,8 @@ A API possui dois níveis de rate limiting:
 | Método | Rota | Descrição | Auth |
 |--------|------|-----------|------|
 | `GET` | `/me` | Retorna os dados do usuário autenticado | 🔒 |
+| `PATCH` | `/me` | Altera o peso, campo weightG do usuario, dado opcional no banco | 🔒 |
+| `PATCH` | `/me/passowrd` | Rota para redefinição de senha | 🔒 |
 
 ---
 
