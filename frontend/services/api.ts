@@ -15,7 +15,12 @@ const normalizeBaseUrl = (url?: string | null) => {
 };
 
 const getBaseUrl = () => {
-    const configuredBaseUrl = normalizeBaseUrl(process.env.EXPO_PUBLIC_API_BASE_URL);
+    const expoExtra = Constants.expoConfig?.extra as
+        | { apiBaseUrl?: string }
+        | undefined;
+    const configuredBaseUrl =
+        normalizeBaseUrl(process.env.EXPO_PUBLIC_API_BASE_URL) ??
+        normalizeBaseUrl(expoExtra?.apiBaseUrl);
 
     if (configuredBaseUrl) {
         return configuredBaseUrl;

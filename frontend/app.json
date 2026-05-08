@@ -61,6 +61,7 @@
       "reactCompiler": true
     },
     "extra": {
+      "apiBaseUrl": "https://grav-treino.tech",
       "router": {},
       "eas": {
         "projectId": "49703e14-76eb-4f94-aaf8-742de74d3c56"
