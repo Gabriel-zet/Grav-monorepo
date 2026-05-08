@@ -1,3 +1,4 @@
+import { fa, tr } from 'zod/locales';
 import { prisma } from '../database/prisma.js';
 import type { CreateUserRepoInput } from './CreateUserRepoInput.js';
 
@@ -21,13 +22,60 @@ export const userRepo = {
                 id: true,
                 name: true,
                 email: true,
+                weightG: true,
                 createdAt: true,
                 passwordHash: false,
                 refreshToken: true,
-                refreshTokenExpiresAt: true,
+                refreshTokenExpiresAt: true
     },
         });
     },
+
+    updateById(id: number, data: { weightG?: number | null }) {
+        return prisma.user.update({
+            where: { id },
+                data,
+                select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+                weightG: true,
+                passwordHash: false,
+                refreshToken: false,
+                refreshTokenExpiresAt: false
+      },
+        });
+    },
+
+    findAuthById(id: number) {
+        return prisma.user.findUnique({
+            where: { id },
+            select: {
+            id: true,
+            passwordHash: true,
+        },
+        });
+    },
+
+    updatePasswordHash(id: number, passwordHash: string) {
+        return prisma.user.update({
+            where: { id },
+            data: { passwordHash },
+            select: {
+            id: true,
+            email: true,
+            name: true,
+            createdAt: true,
+            weightG: true,
+            },
+        });
+    },
+
+
+
+
+
 
     // Delete um usuário pelo id
     deleteById(id: number){
@@ -52,7 +100,7 @@ export const userRepo = {
         });
     },
 
-     // ✅ Invalidar refresh token (logout)
+     
     async invalidateRefreshToken(userId: number) {
         return prisma.user.update({
             where: { id: userId },

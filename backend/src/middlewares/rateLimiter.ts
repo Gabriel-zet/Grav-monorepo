@@ -19,3 +19,12 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
   skipSuccessfulRequests: true, // Não conta requisições bem-sucedidas
 });
+
+export const passwordChangeLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, 
+  max: 10,  // Limita a 10 tentativas de mudança de senha por IP a cada 10 minutos
+  message: "Muitas tentativas de mudança de senha. Tente novamente em 10 minutos.",
+  standardHeaders: true, 
+  legacyHeaders: false, 
+  skipSuccessfulRequests: false, // Conta todas as requisições, mesmo as bem-sucedidas
+});

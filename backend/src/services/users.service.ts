@@ -14,7 +14,7 @@ if (!JWT_SECRET_ENV) {
 
 const JWT_SECRET: Secret = JWT_SECRET_ENV;
 
-// ✅ Gerar Access Token (curta duração)
+// Gera access token curto
 function generateAccessToken(userId: number): string {
   const signOptions: SignOptions = {
     subject: String(userId),
@@ -23,7 +23,7 @@ function generateAccessToken(userId: number): string {
   return (jwt as any).default.sign({}, JWT_SECRET, signOptions);
 }
 
-// ✅ Gerar Refresh Token (longa duração)
+// Gera refresh token longo
 function generateRefreshToken(userId: number): string {
   const signOptions: SignOptions = {
     subject: String(userId),
@@ -101,6 +101,22 @@ export const usersService = {
     }
   },
 
+    async changePassword(userId: number, input: { currentPassword: string; newPassword: string }) {
+    const user = await userRepo.findAuthById(userId);
+    if (!user) return null;
+
+    const ok = await bcrypt.compare(input.currentPassword, user.passwordHash);
+    if (!ok) return "INVALID_CURRENT_PASSWORD" as const;
+
+    const saltRounds = 10;
+    const newHash = await bcrypt.hash(input.newPassword, saltRounds);
+
+    // troca a senha
+    const updatedUser = await userRepo.updatePasswordHash(userId, newHash);
+
+
+    return updatedUser;
+  },
 
 
   async list() {
@@ -109,6 +125,10 @@ export const usersService = {
 
   async getById(id: number) {
     return userRepo.findById(id);
+  },
+
+  async updateById(id: number, data: { weightG?: number | null }) {
+    return userRepo.updateById(id, data);
   },
 
   async remove(id: number) {
