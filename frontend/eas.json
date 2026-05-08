@@ -7,7 +7,7 @@
     "apk": {
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "http://142.93.62.231:3000"
+        "EXPO_PUBLIC_API_BASE_URL": "https://grav-treino.tech"
       },
       "android": {
         "buildType": "apk"
@@ -15,7 +15,7 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "http://142.93.62.231:3000"
+        "EXPO_PUBLIC_API_BASE_URL": "https://grav-treino.tech"
       },
       "android": {
         "buildType": "app-bundle"
